@@ -1,0 +1,97 @@
+@import url(main.css);
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--light);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.login-left {
+  background-color: #007dff;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-image {
+  width: 100%;
+  max-width: 300px;
+}
+
+.login-right {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-logo {
+  width: auto;
+  height: 72px;
+  margin-bottom: 10px;
+}
+
+.login-header {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-header h2 {
+  font-size: 2em;
+  color: var(--dark);
+  margin-bottom: 5px;
+}
+
+.login-header p {
+  color: #777;
+}
+
+form {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 10px;
+  background-color: var(--blue);
+  box-shadow: 0px 4px 20px rgba(4, 4, 0, 0.2);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s;
+}
+
+button:hover {
+  filter: saturate(0);
+}

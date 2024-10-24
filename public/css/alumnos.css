@@ -1,0 +1,171 @@
+@import url(main.css);
+
+.main-container {
+	min-height: 100vh;
+	display: flex;
+	background: var(--neutral);
+}
+
+.left-content {
+	max-width: 350px;
+	background: var(--blue);
+	color: var(--light);
+	font-size: 1.2em;
+}
+
+.left-content__inner {
+	position: sticky;
+	top: 0;
+	display: grid;
+	justify-items: center;
+	gap: 1em;
+}
+
+.left-content .logo-wrapper {
+	padding: 1.5em;
+}
+
+.left-content .profile-wrapper {
+	padding: 0 1.5em;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.left-content .profile-img {
+	width: 50px;
+	aspect-ratio: 1;
+	object-fit: cover;
+}
+
+.left-content .nav-menu {
+	padding: 2em 0;
+	width: 100%;
+}
+
+.left-content .nav-link {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+	padding: 1em 2em;
+}
+
+.left-content .nav-link:hover,
+.left-content .nav-link.active {
+	background: #2463cf;
+}
+
+.left-content .nav-link.active {
+	border-right: 2px solid var(--light);
+}
+
+main {
+	width: 100%;
+	padding: 2em 2.5em;
+	display: grid;
+	align-content: start;
+	gap: 2.5em;
+}
+
+main .welcome-msg {
+	text-transform: uppercase;
+	font-size: 2em;
+	font-weight: 500;
+}
+
+.card-wrapper {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 230px);
+	gap: 1em;
+}
+
+.card {
+	display: grid;
+	justify-items: center;
+	gap: 10px;
+	border-radius: 1.5em;
+	padding: 1em 2em;
+	color: var(--light);
+}
+
+.card.green {
+	background: var(--green);
+}
+
+.card.red {
+	background: var(--red);
+}
+
+.card.orange {
+	background: var(--orange);
+}
+
+.card.blue {
+	background: var(--blue);
+}
+
+.card-heading {
+	font-size: 1.5em;
+	text-transform: uppercase;
+}
+
+.card-bottom {
+	display: flex;
+	justify-content: center;
+	gap: 1.5em;
+}
+
+.card-bottom i {
+	font-size: 60px;
+}
+
+.card-bottom span {
+	font-size: 3em;
+}
+
+.details-wrapper {
+	max-width: calc(1440px - 350px);
+}
+
+.details-row {
+	display: flex;
+	justify-content: space-between;
+	padding: 1em;
+}
+
+.details-row:not(:last-child) {
+	border-bottom: 1px solid var(--dark);
+}
+
+/* Profile Styles */
+main .profile-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+}
+
+main .profile-img {
+	width: 100px;
+}
+
+main .profile-wrapper p {
+	font-size: 2em;
+	font-weight: 500;
+}
+
+main .info-wrapper {
+	max-width: calc(1440px - 350px);
+	background: #d9d9d9;
+	padding: 1em 1.5em;
+	border-radius: 12px;
+	font-weight: 500;
+}
+
+.info-row {
+	padding: 1em 0;
+}
+
+.info-row:not(:last-child) {
+	border-bottom: 1px solid var(--dark);
+}

@@ -1,0 +1,93 @@
+@import url(main.css);
+
+.main-container {
+	min-height: 100vh;
+	display: flex;
+	background: var(--neutral);
+}
+
+.left-content {
+	max-width: 350px;
+	background: var(--blue);
+	color: var(--light);
+	font-size: 1.2em;
+}
+
+.left-content__inner {
+	position: sticky;
+	top: 0;
+	display: grid;
+	justify-items: center;
+	gap: 1em;
+}
+
+.left-content .logo-wrapper {
+	padding: 1.5em;
+}
+
+.left-content .profile-wrapper {
+	padding: 0 1.5em;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.left-content .profile-img {
+	width: 50px;
+	aspect-ratio: 1;
+	object-fit: cover;
+}
+
+.left-content .nav-menu {
+	padding: 2em 0;
+	width: 100%;
+}
+
+.left-content .nav-link {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+	padding: 1em 2em;
+}
+
+.left-content .nav-link:hover,
+.left-content .nav-link.active {
+	background: #2463cf;
+}
+
+.left-content .nav-link.active {
+	border-right: 2px solid var(--light);
+}
+
+.main-content {
+	flex-grow: 1;
+	padding: 20px;
+}
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+th,
+td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+}
+.check {
+	color: green;
+}
+.x {
+	color: red;
+}
+.late {
+	color: orange;
+}
+.save-btn {
+	background-color: #dc3545;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	float: right;
+}
