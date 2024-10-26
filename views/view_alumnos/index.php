@@ -1,10 +1,52 @@
+<?php
+require_once("../../controller/ControladorAlumno.php");
+$controlador = $ObjControlador;
+
+/* Obtención de la información del alumno */
+$info = $controlador->GetInfoByID(3);
+$user_name = $info["nombres"] . ' ' . $info["apellidos"];
+
+/* Obtención de las asistencias del usuario */
+$stats = $controlador->GetStatsByID(1);
+
+$asistencias = 0;
+$faltas = 0;
+$tardanzas = 0;
+$justificaciones = 0;
+
+foreach ($stats as $stat):
+  if (strtolower($stat["estado"]) == 'asistencia') {
+    $asistencias = $stat['total'];
+  }
+endforeach;
+foreach ($stats as $stat):
+  if (strtolower($stat["estado"]) == 'falta') {
+    $faltas = $stat['total'];
+  }
+endforeach;
+foreach ($stats as $stat):
+  if (strtolower($stat["estado"]) == 'tardanza') {
+    $tardanzas = $stat['total'];
+  }
+endforeach;
+foreach ($stats as $stat):
+  if (strtolower($stat["estado"]) == 'justificación') {
+    $justificaciones = $stat['total'];
+  }
+endforeach;
+
+
+$details = $controlador->GetDetailsByID(1);
+
+?>
+
 <!DOCTYPE html>
 <html lang="es-pe">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../public/css/dashboard.css" />
+  <link rel="stylesheet" href="../../public/css/alumnos.css" />
   <link rel="shortcut icon" href="../../public/img/logo-square.png" type="image/x-icon">
   <title>DailyCheck - Alumnos</title>
 </head>
@@ -18,7 +60,7 @@
         </div>
         <div class="profile-wrapper">
           <img src="../../public/img/profile.png" alt="Foto de perfil" class="profile-img" />
-          <p>Daniel Eduardo Villafranqui Colquicocha</p>
+          <p><?= $user_name ?></p>
         </div>
         <nav class="nav-menu">
           <ul>
@@ -42,42 +84,53 @@
       </div>
     </div>
     <main>
-      <p class="welcome-msg">Bienvenido, Daniel Eduardo Villafranqui Colquicocha</p>
+      <p class="welcome-msg">Bienvenido, <?= $user_name ?></p>
       <div class="card-wrapper">
         <div class="card green">
           <p class="card-heading">asistencias</p>
           <div class="card-bottom">
             <i class="fa-solid fa-circle-check"></i>
-            <span>12</span>
+            <span><?= $asistencias ?></span>
           </div>
         </div>
         <div class="card red">
           <p class="card-heading">faltas</p>
           <div class="card-bottom">
             <i class="fa-solid fa-circle-xmark"></i>
-            <span>12</span>
+            <span><?= $faltas ?></span>
           </div>
         </div>
         <div class="card orange">
           <p class="card-heading">tardanzas</p>
           <div class="card-bottom">
             <i class="fa-solid fa-user-clock"></i>
-            <span>12</span>
+            <span><?= $tardanzas ?></span>
           </div>
         </div>
         <div class="card blue">
           <p class="card-heading">justificadas</p>
           <div class="card-bottom">
             <i class="fa-solid fa-circle-info"></i>
-            <span>12</span>
+            <span><?= $justificaciones ?></span>
           </div>
         </div>
       </div>
       <div class="details-wrapper">
+
+        <?php foreach ($details as $detail): ?>
+        <div class="details-row">
+          <p class="details-row__date"><?= $detail["fecha"] ?></p>
+          <p class="details-row__status"><?= $detail["estado"] ?></p>
+          <?php $detail["estado"] === 'falta' ?? '<button class="btn btn-danger">Justificar</button>' ?>
+        </div>
+        <?php endforeach ?>
+
         <div class="details-row">
           <p class="details-row__date">02/07/2024</p>
           <p class="details-row__status">Asistencia</p>
+          <button class="btn btn-danger">Justificar</button>
         </div>
+
         <div class="details-row">
           <p class="details-row__date">02/07/2024</p>
           <p class="details-row__status">Asistencia</p>

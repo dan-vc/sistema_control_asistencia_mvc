@@ -1,10 +1,20 @@
+<?php
+require_once("../../controller/ControladorAlumno.php");
+$controlador = $ObjControlador;
+
+$info = $controlador->GetInfoByID(3);
+
+$user_name = $info["nombres"] . ' ' . $info["apellidos"];
+
+?>
+
 <!DOCTYPE html>
 <html lang="es-pe">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../../public/css/dashboard.css" />
+  <link rel="stylesheet" href="../../public/css/alumnos.css" />
   <link rel="shortcut icon" href="../../public/img/logo-square.png" type="image/x-icon">
   <title>DailyCheck - Alumnos</title>
 </head>
@@ -18,7 +28,7 @@
         </div>
         <div class="profile-wrapper">
           <img src="../../public/img/profile.png" alt="Foto de perfil" class="profile-img" />
-          <p>Daniel Eduardo Villafranqui Colquicocha</p>
+          <p><?= $user_name ?></p>
         </div>
         <nav class="nav-menu">
           <ul>
@@ -44,20 +54,23 @@
     <main>
       <div class="profile-wrapper">
         <img src="../../public/img/profile.png" alt="Foto de perfil" class="profile-img" />
-        <p> Daniel Eduardo Villafranqui Colquicocha</p>
+        <p><?= $user_name ?></p>
       </div>
       <div class="info-wrapper">
         <div class="info-row">
-          <span>ID:</span> <span>001</span>
+          <span>ID:</span> <span><?= $info["id"] ?></span>
         </div>
         <div class="info-row">
-          <span>Sexo:</span> <span>Masculino</span>
+          <span>Sexo:</span> <span><?= $info["id"] ?></span>
         </div>
         <div class="info-row">
-          <span>Clase:</span> <span>2-A</span>
+          <span>Correo:</span> <span><?= $info["correo"] ?></span>
         </div>
         <div class="info-row">
-          <span>Instructor:</span> <span>Arturo Collado</span>
+          <span>Bloque:</span> <span><?= $info["bloque_nombre"] ?></span>
+        </div>
+        <div class="info-row">
+          <span>Instructor:</span> <span><?= $info["profesor_nombres"] . " " . $info["profesor_apellidos"] ?></span>
         </div>
       </div>
     </main>

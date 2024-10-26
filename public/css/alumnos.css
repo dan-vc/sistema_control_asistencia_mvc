@@ -130,12 +130,23 @@ main .welcome-msg {
 
 .details-row {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 	padding: 1em;
+	margin-right: 140px;
+
+	position: relative;
 }
 
 .details-row:not(:last-child) {
 	border-bottom: 1px solid var(--dark);
+}
+
+.details-row button {
+	position: absolute;
+	right: -1em;
+	top: 50%;
+	transform: translate(100%, -50%);
 }
 
 /* Profile Styles */
