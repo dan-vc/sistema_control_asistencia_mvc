@@ -1,4 +1,5 @@
 @import url(main.css);
+@import url(modal.css);
 
 /* Contenedor principal */
 .c-admin {
@@ -133,71 +134,4 @@
 	display: flex;
 	justify-content: center;
 	width: 100%;
-}
-
-/* Estilos del modal */
-
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.7);
-}
-
-.modal-contenido {
-	background-color: #fefefe;
-	margin: 10% auto;
-	padding: 2rem;
-	border: 1px solid #888;
-	border-radius: 7px;
-	width: 90%;
-	max-width: 500px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.cerrar {
-	color: var(--blue);
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.cerrar:hover {
-	color: #0056b3;
-}
-
-.modal h2 {
-	text-align: center;
-	margin-bottom: 1rem;
-}
-
-.modal form {
-	display: grid;
-	gap: 1rem;
-}
-
-.modal input {
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-}
-
-.modal button[type='submit'] {
-	background-color: var(--green);
-	color: var(--light);
-	padding: 10px;
-	border: none;
-	border-radius: 7px;
-	font-size: 1rem;
-	cursor: pointer;
-}
-
-.modal button[type='submit']:hover {
-	background-color: darkvar(--green);
 }

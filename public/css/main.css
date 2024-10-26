@@ -57,3 +57,8 @@ a {
 	background: var(--red);
 	color: var(--light);
 }
+
+.btn-green {
+	background: var(--green);
+	color: var(--light);
+}

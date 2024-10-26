@@ -69,4 +69,20 @@ class ModeloAlumno
         $data = $stm->fetch(PDO::FETCH_ASSOC);
         return $data;
     }
+
+    function MetodoJustificar($asistencia_id, $mensaje)
+    {
+        $query = 'INSERT INTO justificaciones(asistencia_id, mensaje) VALUES(?, ?)';
+        $stm = $this->conexion->prepare($query);
+
+        if ($stm->execute([
+            $asistencia_id,
+            $mensaje
+        ])) {
+            $data = 'Justificación enviada con éxito.';
+        } else {
+            $data = 'Ocurrió un error al generar la justificación.';
+        }
+        return $data;
+    }
 }

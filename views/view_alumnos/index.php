@@ -36,7 +36,7 @@ foreach ($stats as $stat):
 endforeach;
 
 
-$details = $controlador->GetDetailsByID(1);
+$details = $controlador->GetDetailsByID(3);
 
 ?>
 
@@ -118,28 +118,28 @@ $details = $controlador->GetDetailsByID(1);
       <div class="details-wrapper">
 
         <?php foreach ($details as $detail): ?>
-        <div class="details-row">
-          <p class="details-row__date"><?= $detail["fecha"] ?></p>
-          <p class="details-row__status"><?= $detail["estado"] ?></p>
-          <?php $detail["estado"] === 'falta' ?? '<button class="btn btn-danger">Justificar</button>' ?>
-        </div>
+          <div class="details-row">
+            <p class="details-row__date"><?= $detail["fecha"] ?></p>
+            <p class="details-row__status"><?= $detail["estado"] ?></p>
+            <?php if ($detail["estado"] === 'falta'): ?>
+              <button class="btn btn-danger" onclick="justificarModal('<?= $detail["id"] ?>');">Justificar</button>
+            <?php endif ?>
+          </div>
         <?php endforeach ?>
 
-        <div class="details-row">
+        <!-- <div class="details-row">
           <p class="details-row__date">02/07/2024</p>
           <p class="details-row__status">Asistencia</p>
-          <button class="btn btn-danger">Justificar</button>
-        </div>
+          <button class="btn btn-danger" id="abrir-modal">Justificar</button>
+        </div> -->
 
-        <div class="details-row">
-          <p class="details-row__date">02/07/2024</p>
-          <p class="details-row__status">Asistencia</p>
-        </div>
       </div>
     </main>
   </div>
+
 </body>
 
 <script src="https://kit.fontawesome.com/49770ae187.js" crossorigin="anonymous"></script>
+<script src="../../public/js/modal-justificar.js"></script>
 
 </html>
