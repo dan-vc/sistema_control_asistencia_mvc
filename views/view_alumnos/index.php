@@ -126,8 +126,8 @@ $details = $controlador->GetDetailsByID(3);
         <?php foreach ($details as $detail): ?>
           <div class="details-row">
             <p class="details-row__date"><?= $detail["fecha"] ?></p>
-            <p class="details-row__status"><?= $detail["estado"] ?></p>
-            <?php if ($detail["estado"] === 'falta'): ?>
+            <p class="details-row__status"><?= $detail["estado_asistencia"] ?></p>
+            <?php if ($detail["estado_asistencia"] === 'falta' && $detail["estado_justificacion"] === null): ?>
               <button class="btn btn-danger" onclick="justificarModal('<?= $detail["id"] ?>');">Justificar</button>
             <?php endif ?>
           </div>
