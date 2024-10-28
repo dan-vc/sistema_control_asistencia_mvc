@@ -92,7 +92,8 @@ class ModeloAlumno
             'SELECT 
         j.id, 
         j.mensaje, 
-        a.fecha
+        a.fecha,
+        j.estado
         FROM justificaciones AS j
         INNER JOIN asistencias AS a ON j.asistencia_id = a.id
         INNER JOIN usuarios AS u ON a.alumno_id = u.id

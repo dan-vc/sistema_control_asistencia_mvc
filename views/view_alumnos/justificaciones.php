@@ -67,6 +67,7 @@ $justificaciones = $controlador->VerJustificaciones(3);
             <p class="details-row__id"><?= $justificacion["id"] ?></p>
             <p class="details-row__date"><?= $justificacion["fecha"] ?></p>
             <p class="details-row__status"><?= $justificacion["mensaje"] ?></p>
+            <p class="details-row__status"><?= $justificacion["estado"] ?></p>
           </div>
         <?php endforeach ?>
 

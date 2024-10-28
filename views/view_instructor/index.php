@@ -1,3 +1,7 @@
+<?php
+date_default_timezone_set('America/Lima');
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -30,7 +34,7 @@
 
 
     <main class="main-content">
-      <h2>Día: <?php echo date('d/m/Y'); ?></h2>
+      <h2>Día: <?= date('d/m/Y') ?></h2>
       <table>
         <tr>
           <th>Nombre</th>
