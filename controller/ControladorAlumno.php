@@ -31,6 +31,12 @@ class ControladorProducto
         return $data;
     }
 
+    function VerJustificaciones($id)
+    {
+        $data = $this->modelo->MetodoVerJustificaciones($id);
+        return $data;
+    }
+
 }
 
 $ObjControlador = new ControladorProducto($ObjModelo);

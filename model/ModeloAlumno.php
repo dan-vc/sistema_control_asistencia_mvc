@@ -85,4 +85,23 @@ class ModeloAlumno
         }
         return $data;
     }
+
+    function MetodoVerJustificaciones($alumno_id)
+    {
+        $query =
+            'SELECT 
+        j.id, 
+        j.mensaje, 
+        a.fecha
+        FROM justificaciones AS j
+        INNER JOIN asistencias AS a ON j.asistencia_id = a.id
+        INNER JOIN usuarios AS u ON a.alumno_id = u.id
+        WHERE u.id = ?';
+        $stm = $this->conexion->prepare($query);
+        $stm->execute([
+            $alumno_id
+        ]);
+        $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
 }

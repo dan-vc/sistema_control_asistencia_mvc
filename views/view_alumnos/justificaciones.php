@@ -2,9 +2,11 @@
 require_once("../../controller/ControladorAlumno.php");
 $controlador = $ObjControlador;
 
-$info = $controlador->GetInfoByID(3);
 
-$user_name = $info["nombres"] . ' ' . $info["apellidos"];
+$user_info = $controlador->GetInfoByID(3);
+$user_name = $user_info["nombres"] . ' ' . $user_info["apellidos"];
+
+$justificaciones = $controlador->VerJustificaciones(3);
 
 ?>
 
@@ -39,13 +41,13 @@ $user_name = $info["nombres"] . ' ' . $info["apellidos"];
               </a>
             </li>
             <li>
-              <a href="profile.php" class="nav-link active">
+              <a href="profile.php" class="nav-link">
                 <i class="fa-solid fa-user"></i>
                 Perfil
               </a>
             </li>
             <li>
-              <a href="justificaciones.php" class="nav-link">
+              <a href="justificaciones.php" class="nav-link active">
                 <i class="fa-solid fa-user"></i>
                 Justificaciones
               </a>
@@ -58,26 +60,16 @@ $user_name = $info["nombres"] . ' ' . $info["apellidos"];
       </div>
     </div>
     <main>
-      <div class="profile-wrapper">
-        <img src="../../public/img/profile.png" alt="Foto de perfil" class="profile-img" />
-        <p><?= $user_name ?></p>
-      </div>
-      <div class="info-wrapper">
-        <div class="info-row">
-          <span>ID:</span> <span><?= $info["id"] ?></span>
-        </div>
-        <div class="info-row">
-          <span>Sexo:</span> <span><?= $info["id"] ?></span>
-        </div>
-        <div class="info-row">
-          <span>Correo:</span> <span><?= $info["correo"] ?></span>
-        </div>
-        <div class="info-row">
-          <span>Bloque:</span> <span><?= $info["bloque_nombre"] ?></span>
-        </div>
-        <div class="info-row">
-          <span>Instructor:</span> <span><?= $info["profesor_nombres"] . " " . $info["profesor_apellidos"] ?></span>
-        </div>
+      <div class="details-wrapper">
+
+        <?php foreach ($justificaciones as $justificacion): ?>
+          <div class="details-row">
+            <p class="details-row__id"><?= $justificacion["id"] ?></p>
+            <p class="details-row__date"><?= $justificacion["fecha"] ?></p>
+            <p class="details-row__status"><?= $justificacion["mensaje"] ?></p>
+          </div>
+        <?php endforeach ?>
+
       </div>
     </main>
   </div>

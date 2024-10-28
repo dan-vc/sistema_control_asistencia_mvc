@@ -76,6 +76,12 @@ $details = $controlador->GetDetailsByID(3);
                 Perfil
               </a>
             </li>
+            <li>
+              <a href="justificaciones.php" class="nav-link ">
+                <i class="fa-solid fa-user"></i>
+                Justificaciones
+              </a>
+            </li>
           </ul>
         </nav>
         <a href="../../" class="btn btn-danger">
