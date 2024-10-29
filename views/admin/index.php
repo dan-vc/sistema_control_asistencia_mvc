@@ -1,121 +1,127 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../../config/conexion.php';
+require_once '../../controller/usuarioControllers.php';
+
+$usuarioController = new UsuarioController();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_GET['action']) && $_GET['action'] === 'actualizar') {
+        $usuarioController->actualizar();
+        exit;
+    }
+
+    $usuarioController->crear();
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'obtenerEstudiante') {
+    $usuarioController->obtenerEstudiante();
+    exit;
+}
+
+$estudiantes = $usuarioController->listar();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="../../public/img/logo-square.png" type="image/x-icon">
-  <title>Administrador</title>
-  <link rel="stylesheet" href="../../public/css/admin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <link rel="stylesheet" href="../../public/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-  <main>
-    <div class="c-admin">
-      <!-- Información del administrador -->
-      <div class="admin-info">
-        <div class="admin-info__inner">
-          <div class="c-img-logo">
-            <img src="../../public/img/logo-white.png" alt="" class="logo-img">
-          </div>
+    <main>
+        <div class="c-admin">
 
-          <div class="informacion-admin">
-            <img src="../../public/img/profile2.png" alt="Foto de Perfil de admin">
-            <p>Admin</p>
-          </div>
-          <div class="informacion-admin-2">
-            <p><b>Clases:</b> Desarrollo de Aplicaciones Móviles</p>
-            <p><b>Instructor:</b> Arturo Collado</p>
-          </div>
-          <div class="c-cerrar-sesion">
-            <a href="../../" class="btn btn-danger">Cerrar Sesión</a>
-          </div>
-        </div>
-      </div>
+            <!-- Esto se trabajará con el login, el inicio de sesión  -->
+            <div class="admin-info">
+                <div class="c-img-logo">
+                    <img src="../../public/img/logo.png" alt="">
+                </div>
 
-      <!-- Funciones que puede realizar el administrador -->
-      <div class="c-admin-funciones">
-        <?php
-        $sql = "SELECT id, name, apellido FROM estudiantes";
-        $resultado = $conexion->query($sql);
+                <div class="informacion-admin">
+                    <img src="../../public/img/profile2.png" alt="Foto de Perfil de admin">
+                    <p>Admin</p>
+                </div>
 
-        /* Se mostraran los datos */
-        if ($resultado->rowCount() > 0) {
-          while ($fila = $resultado->fetch()) { ?>
-        <div class="admin-funciones">
-          <div class="info-contenedor">
-            <img src="../../public/img/profile2.png" alt="Perfil">
-            <div class="info-estudiante">
-              <h3 class="nombre-estudiante"><?= $fila['name'] . ' ' . $fila['apellido'] ?></h3>
-              <p><?= ($fila['id']) ?></p>
+                <div class="informacion-admin-2">
+                    <p><b>Clases:</b> Desarrollo de Aplicaciones Móviles</p>
+                    <p><b>Instructor:</b> Arturo Collado</p>
+                </div>
+
+                <div class="c-cerrar-sesion">
+                    <button type="button">Cerrar Sesión</button>
+                </div>
             </div>
-          </div>
 
-          <div class="botones">
-            <button class="boton-editar" data-id="<?= $fila['id'] ?>">Editar</button>
-            <form action="../../metodos/eliminar_estudiante.php" method="post" style="display:inline;">
-              <input type="hidden" name="id" value="<?= $fila['id'] ?>">
-              <button type="submit" class="boton-eliminar"
-                onclick="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');">Eliminar</button>
-            </form>
-          </div>
+            <!-- Funciones que puede realizar el administrador -->
+            <div class="c-admin-funciones">
+                <?php if (!empty($estudiantes)): ?>
+                    <?php foreach ($estudiantes as $estudiante): ?>
+                        <div class="admin-funciones">
+                            <div class="info-contenedor">
+                                <i class="icono-perfil fas fa-user-circle"></i>
+                                <div class="info-estudiante">
+                                    <h3 class="nombre-estudiante">
+                                        <?= htmlspecialchars($estudiante['nombres'] . ' ' . $estudiante['apellidos']) ?></h3>
+                                    <p><?= htmlspecialchars($estudiante['correo']) ?></p>
+                                </div>
+                            </div>
+                            <div class="botones">
+                                <button class="boton-editar"
+                                    data-id="<?= htmlspecialchars($estudiante['id']) ?>">Editar</button>
 
+                                <form class="form-eliminar" action="../../controller/usuarioControllers.php?action=eliminar"
+                                    method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($estudiante['id']) ?>">
+                                    <button type="submit" class="boton-eliminar"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');">Eliminar</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No hay estudiantes disponibles.</p>
+                <?php endif; ?>
+
+                <div class="boton-añadir-container">
+                    <a href="añadir.php" class="boton-añadir">+</a>
+                </div>
+
+            </div>
         </div>
-        <?php
-          }
-        } else {
-          echo '<p>No hay estudiantes disponibles.</p>';
-        }
-        ?>
-        <div class="boton-añadir-container">
-          <button class="boton-añadir" id="abrir-modal">+</button>
+
+        <!-- Modal de editar -->
+        <div id="modal-editar" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar" id="cerrar-modal">&times;</span>
+                <h2>Editar Estudiante</h2>
+                <form id="form-editar">
+                    <input type="hidden" id="estudiante-id" name="id">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="name" required>
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                    <button type="submit">Guardar Cambios</button>
+                </form>
+            </div>
         </div>
 
-      </div>
-
-    </div>
-
-    <!-- Modal de editar -->
-    <div id="modal-editar" class="modal">
-      <div class="modal-contenido">
-        <span class="cerrar" id="cerrar-modal">&times;</span>
-        <h2>Editar Estudiante</h2>
-        <form id="form-editar">
-          <input type="hidden" id="estudiante-id" name="id">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="name" required>
-          <label for="apellido">Apellido:</label>
-          <input type="text" id="apellido" name="apellido" required>
-          <button type="submit">Guardar Cambios</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Modal de añadir nuevo estudiante -->
-    <div id="modal-anadir" class="modal" style="display:none;">
-      <div class="modal-contenido">
-        <span class="cerrar" id="cerrar-modal">&times;</span>
-        <h2>Añadir Estudiante</h2>
-        <form id="form-anadir" action="../../metodos/nuevo_estudiante.php" method="post">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="name" required>
-          <label for="apellido">Apellido:</label>
-          <input type="text" id="apellido" name="apellido" required>
-          <label for="dni">DNI:</label>
-          <input type="number" id="dni" name="dni" required>
-          <button type="submit">Añadir Estudiante</button>
-        </form>
-      </div>
-    </div>
 
 
-  </main>
-  <script src="../../public/js/modal-editar.js"></script>
-  <script src="../../public/js/modal-añadir.js"></script>
+    </main>
+    <script src="../../public/js/modal-editar.js"></script>
 </body>
 
 </html>
