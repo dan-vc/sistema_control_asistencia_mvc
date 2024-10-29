@@ -50,7 +50,7 @@ $estudiantes = $usuarioController->listar();
                 </div>
 
                 <div class="informacion-admin">
-                    <img src="../../public/img/profile2.png" alt="Foto de Perfil de admin">
+                    <img src="../../public/img/perfil.png" alt="Foto de Perfil de admin">
                     <p>Admin</p>
                 </div>
 
@@ -60,7 +60,7 @@ $estudiantes = $usuarioController->listar();
                 </div>
 
                 <div class="c-cerrar-sesion">
-                    <button type="button">Cerrar Sesión</button>
+                    <button type="button" class="btn btn-danger">Cerrar Sesión</button>
                 </div>
             </div>
 
@@ -96,7 +96,7 @@ $estudiantes = $usuarioController->listar();
                 <?php endif; ?>
 
                 <div class="boton-añadir-container">
-                    <a href="añadir.php" class="boton-añadir">+</a>
+                    <a href="añadir.php" class="btn btn-green boton-añadir">+</a>
                 </div>
 
             </div>

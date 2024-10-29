@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const formData = new FormData(this);
     
-        fetch('../controllers/usuarioControllers.php', { 
+        fetch('../../controller/usuarioControllers.php', { 
             method: 'POST',
             body: formData
         })

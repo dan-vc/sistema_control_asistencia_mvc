@@ -122,12 +122,10 @@
 
 .boton-añadir {
 	width: 10%;
-	background-color: var(--green);
-	color: var(--light);
-	cursor: pointer;
 	font-size: 2rem;
-	border: none;
-	border-radius: 7px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .boton-añadir-container {
