@@ -4,7 +4,7 @@ require_once("../../config/conexion.php");
 
 $ObjModelo = new ModeloAlumno($conexion);
 
-class ControladorProducto
+class ControladorAlumno
 {
     private $modelo;
 
@@ -39,4 +39,4 @@ class ControladorProducto
 
 }
 
-$ObjControlador = new ControladorProducto($ObjModelo);
+$ObjControlador = new ControladorAlumno($ObjModelo);

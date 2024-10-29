@@ -79,6 +79,14 @@ input {
   font-size: 1rem;
 }
 
+input.error {
+  border-color: var(--red);
+}
+
+.error-msg{
+  color: var(--red);
+}
+
 button {
   margin-top: 10px;
   background-color: var(--blue);

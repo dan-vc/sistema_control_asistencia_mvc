@@ -1,13 +1,16 @@
 <?php
+session_start();
+$user_id = $_SESSION['user_id'];
+
 require_once("../../controller/ControladorAlumno.php");
 $controlador = $ObjControlador;
 
 /* Obtención de la información del alumno */
-$info = $controlador->GetInfoByID(3);
+$info = $controlador->GetInfoByID($user_id);
 $user_name = $info["nombres"] . ' ' . $info["apellidos"];
 
 /* Obtención de las asistencias del usuario */
-$stats = $controlador->GetStatsByID(1);
+$stats = $controlador->GetStatsByID($user_id);
 
 $asistencias = 0;
 $faltas = 0;
@@ -36,7 +39,7 @@ foreach ($stats as $stat):
 endforeach;
 
 
-$details = $controlador->GetDetailsByID(3);
+$details = $controlador->GetDetailsByID($user_id);
 
 ?>
 
