@@ -143,11 +143,17 @@ main .welcome-msg {
 	border-bottom: 1px solid var(--dark);
 }
 
-.details-row button {
+.details-row button,
+.details-row a {
 	position: absolute;
 	right: -1em;
 	top: 50%;
 	transform: translate(100%, -50%);
+}
+
+.details-row a {
+	text-decoration: underline;
+	color: var(--blue);
 }
 
 /* Profile Styles */

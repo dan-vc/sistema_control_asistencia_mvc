@@ -21,12 +21,26 @@ date_default_timezone_set('America/Lima');
           <img src="../../public/img/logo-white.png" alt="logo" class="logo-img" />
         </div>
         <div class="profile-wrapper">
-          <img src="../../public/img/profile2.png" alt="Instructor" class="profile-img" />
+          <img src="../../public/img/profile.png" alt="Instructor" class="profile-img" />
           <p>Nombre del Instructor</p>
         </div>
-        <p>Clase: seminario</p>
-        <p>N° Alumnos: 30</p>
-        <a href="../../" class="btn btn-danger">
+        <nav class="nav-menu">
+          <ul>
+            <li>
+              <a href="index.php" class="nav-link active">
+                <i class="fa-regular fa-calendar"></i>
+                Asistencia
+              </a>
+            </li>
+            <li>
+              <a href="justificaciones.php" class="nav-link ">
+                <i class="fa-solid fa-user"></i>
+                Justificaciones
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <a href="../logout.php" class="btn btn-danger">
           Cerrar sesión
         </a>
       </div>

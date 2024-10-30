@@ -67,9 +67,6 @@ $user_name = $info["nombres"] . ' ' . $info["apellidos"];
           <span>ID:</span> <span><?= $info["id"] ?></span>
         </div>
         <div class="info-row">
-          <span>Sexo:</span> <span><?= $info["id"] ?></span>
-        </div>
-        <div class="info-row">
           <span>Correo:</span> <span><?= $info["correo"] ?></span>
         </div>
         <div class="info-row">

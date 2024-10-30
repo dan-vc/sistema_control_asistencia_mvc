@@ -62,10 +62,12 @@ $justificaciones = $controlador->VerJustificaciones(3);
     <main>
       <div class="details-wrapper">
 
-        <?php foreach ($justificaciones as $justificacion): ?>
+        <?php
+        foreach ($justificaciones as $justificacion):
+          $fecha = date_create_from_format("Y-m-d H:i:s", $justificacion["fecha"]); ?>
           <div class="details-row">
             <p class="details-row__id"><?= $justificacion["id"] ?></p>
-            <p class="details-row__date"><?= $justificacion["fecha"] ?></p>
+            <p class="details-row__date"><?= $fecha->format("Y-m-d") ?></p>
             <p class="details-row__status"><?= $justificacion["mensaje"] ?></p>
             <p class="details-row__status"><?= $justificacion["estado"] ?></p>
           </div>

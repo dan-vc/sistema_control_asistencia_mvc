@@ -18,7 +18,7 @@ class Usuario {
 
     public static function listar() {
         $conn = self::conectar(); 
-        $stmt = $conn->query("SELECT * FROM usuarios");
+        $stmt = $conn->query("SELECT * FROM usuarios WHERE rol_id = 3");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

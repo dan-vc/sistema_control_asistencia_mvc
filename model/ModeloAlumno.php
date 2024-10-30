@@ -40,7 +40,16 @@ class ModeloAlumno
 
     function MetodoGetDetailsByID($id)
     {
-        $query = 'SELECT a.id, a.fecha, a.estado AS estado_asistencia , j.estado AS estado_justificacion FROM asistencias AS a LEFT JOIN justificaciones AS j ON a.id = j.asistencia_id WHERE a.alumno_id = ?';
+        $query = 
+        'SELECT a.id, 
+        a.fecha, 
+        a.estado AS estado_asistencia , 
+        j.estado AS estado_justificacion 
+        FROM asistencias AS a 
+        LEFT JOIN justificaciones AS j 
+        ON a.id = j.asistencia_id 
+        WHERE a.alumno_id = ?
+        ORDER BY fecha';
         $stm = $this->conexion->prepare($query);
         $stm->execute([$id]);
         $data = $stm->fetchAll(PDO::FETCH_ASSOC);

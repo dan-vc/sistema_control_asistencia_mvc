@@ -87,7 +87,7 @@ $details = $controlador->GetDetailsByID($user_id);
             </li>
           </ul>
         </nav>
-        <a href="../../" class="btn btn-danger">
+        <a href="../logout.php" class="btn btn-danger">
           Cerrar sesión
         </a>
       </div>
@@ -126,14 +126,24 @@ $details = $controlador->GetDetailsByID($user_id);
       </div>
       <div class="details-wrapper">
 
-        <?php foreach ($details as $detail): ?>
+        <?php
+        foreach ($details as $detail):
+          $fecha = date_create_from_format("Y-m-d H:i:s", $detail["fecha"]); ?>
+
           <div class="details-row">
-            <p class="details-row__date"><?= $detail["fecha"] ?></p>
+            <p class="details-row__date"><?= $fecha->format("Y-m-d"); ?></p>
             <p class="details-row__status"><?= $detail["estado_asistencia"] ?></p>
-            <?php if ($detail["estado_asistencia"] === 'falta' && $detail["estado_justificacion"] === null): ?>
-              <button class="btn btn-danger" onclick="justificarModal('<?= $detail["id"] ?>');">Justificar</button>
+            
+            <?php if ($detail["estado_asistencia"] === 'falta'):
+              if ($detail["estado_justificacion"] === null): ?>
+                <button class="btn btn-danger" onclick="justificarModal('<?= $detail["id"] ?>')">Justificar</button>
+              <?php else: ?>
+                <a href="justificaciones.php" class="">Ver justificacion</a>
+              <?php endif ?>
+
             <?php endif ?>
           </div>
+
         <?php endforeach ?>
 
         <!-- <div class="details-row">

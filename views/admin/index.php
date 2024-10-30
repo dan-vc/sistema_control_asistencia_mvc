@@ -1,4 +1,7 @@
 <?php
+session_start();
+$user_id = $_SESSION['user_id'];
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -50,7 +53,7 @@ $estudiantes = $usuarioController->listar();
                 </div>
 
                 <div class="informacion-admin">
-                    <img src="../../public/img/perfil.png" alt="Foto de Perfil de admin">
+                    <img src="../../public/img/profile.png" alt="Foto de Perfil de admin">
                     <p>Admin</p>
                 </div>
 
@@ -60,7 +63,7 @@ $estudiantes = $usuarioController->listar();
                 </div>
 
                 <div class="c-cerrar-sesion">
-                    <button type="button" class="btn btn-danger">Cerrar Sesión</button>
+                    <a href="../logout.php" type="button" class="btn btn-danger">Cerrar Sesión</a>
                 </div>
             </div>
 
