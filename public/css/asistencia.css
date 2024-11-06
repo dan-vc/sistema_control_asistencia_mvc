@@ -1,0 +1,47 @@
+.estudiantes {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.td-botones{
+    text-align: center;
+}
+
+.btn-asistencia {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-asistencia.selected-presente {
+    background-color: green; 
+    color: white;
+}
+
+.btn-asistencia.selected-falto {
+    background-color: red; 
+    color: white;
+}
+
+.btn-asistencia.selected-tardanza {
+    background-color: orange; 
+    color: white;
+}
+
+.btn-asistencia.selected-justificado {
+    background-color: blue;
+    color: white;
+}

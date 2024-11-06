@@ -1,33 +1,21 @@
 <?php
+/* Verificacion de Autorizacion*/
 session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 1) {
+    header('Location: ../../');
+    exit;
+}
 $user_id = $_SESSION['user_id'];
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once '../../config/conexion.php';
-require_once '../../controller/usuarioControllers.php';
+require_once '../../controller/controladorBloque.php';
 
-$usuarioController = new UsuarioController();
+$modeloBloque = new ModeloBloque($conexion);
+$controladorBloque = new ControladorBloque($modeloBloque);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_GET['action']) && $_GET['action'] === 'actualizar') {
-        $usuarioController->actualizar();
-        exit;
-    }
+$bloques = $controladorBloque->listarBloques() ?? [];
+$profesores = $controladorBloque->obtenerProfesores();
 
-    $usuarioController->crear();
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
-}
-
-if (isset($_GET['action']) && $_GET['action'] === 'obtenerEstudiante') {
-    $usuarioController->obtenerEstudiante();
-    exit;
-}
-
-$estudiantes = $usuarioController->listar();
 ?>
 
 
@@ -39,6 +27,7 @@ $estudiantes = $usuarioController->listar();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
     <link rel="stylesheet" href="../../public/css/admin.css">
+    <link rel="stylesheet" href="../../public/css/usuarios_bloques.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -57,74 +46,66 @@ $estudiantes = $usuarioController->listar();
                     <p>Admin</p>
                 </div>
 
-                <div class="informacion-admin-2">
-                    <p><b>Clases:</b> Desarrollo de Aplicaciones Móviles</p>
-                    <p><b>Instructor:</b> Arturo Collado</p>
-                </div>
+                <!-- Navegación de páginas -->
+                <nav class="admin-nav">
+                    <ul>
+                        <li>
+                            <a href="index.php" class="nav-link active">
+                                Bloques
+                            </a>
+                        </li>
+                        <li>
+                            <a href="instructores.php" class="nav-link">
+                                Instructores
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
 
                 <div class="c-cerrar-sesion">
                     <a href="../logout.php" type="button" class="btn btn-danger">Cerrar Sesión</a>
                 </div>
             </div>
 
-            <!-- Funciones que puede realizar el administrador -->
-            <div class="c-admin-funciones">
-                <?php if (!empty($estudiantes)): ?>
-                    <?php foreach ($estudiantes as $estudiante): ?>
-                        <div class="admin-funciones">
-                            <div class="info-contenedor">
-                                <i class="icono-perfil fas fa-user-circle"></i>
-                                <div class="info-estudiante">
-                                    <h3 class="nombre-estudiante">
-                                        <?= htmlspecialchars($estudiante['nombres'] . ' ' . $estudiante['apellidos']) ?></h3>
-                                    <p><?= htmlspecialchars($estudiante['correo']) ?></p>
-                                </div>
-                            </div>
-                            <div class="botones">
-                                <button class="boton-editar"
-                                    data-id="<?= htmlspecialchars($estudiante['id']) ?>">Editar</button>
-
-                                <form class="form-eliminar" action="../../controller/usuarioControllers.php?action=eliminar"
-                                    method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= htmlspecialchars($estudiante['id']) ?>">
-                                    <button type="submit" class="boton-eliminar"
-                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');">Eliminar</button>
-                                </form>
-
-                            </div>
+            <div class="bloques">
+                <h2>Lista de Bloques</h2>
+                <div class="lista-bloque">
+                    <?php foreach ($bloques as $bloque): ?>
+                        <div class="card-bloque" onclick="location.href='usuarios.php?id=<?php echo $bloque['id']; ?>'">
+                            <img src="" alt="">
+                            <h3><?php echo htmlspecialchars($bloque['nombre']); ?></h3>
                         </div>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No hay estudiantes disponibles.</p>
-                <?php endif; ?>
-
-                <div class="boton-añadir-container">
-                    <a href="añadir.php" class="btn btn-green boton-añadir">+</a>
+                    <button id="openModalButton">
+                        <i class="fas fa-plus"></i>
+                    </button>
                 </div>
-
             </div>
-        </div>
 
-        <!-- Modal de editar -->
-        <div id="modal-editar" class="modal">
-            <div class="modal-contenido">
-                <span class="cerrar" id="cerrar-modal">&times;</span>
-                <h2>Editar Estudiante</h2>
-                <form id="form-editar">
-                    <input type="hidden" id="estudiante-id" name="id">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="name" required>
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" required>
-                    <button type="submit">Guardar Cambios</button>
-                </form>
+            <div id="addBlockModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeModalButton">&times;</span>
+                    <h2>Añadir Nuevo Bloque</h2>
+                    <form id="addBlockForm">
+                        <label for="blockName">Nombre del Bloque:</label>
+                        <input type="text" id="blockName" required>
+
+                        <label for="professorSelect">Selecciona un Profesor:</label>
+                        <select id="professorSelect" required>
+                            <option value="">Selecciona un profesor</option>
+                            <?php foreach ($profesores as $profesor): ?>
+                                <option value="<?php echo $profesor['id']; ?>">
+                                    <?php echo htmlspecialchars($profesor['nombres'] . " " . $profesor['apellidos']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="submit">Añadir Bloque</button>
+                    </form>
+                </div>
             </div>
-        </div>
-
-
 
     </main>
-    <script src="../../public/js/modal-editar.js"></script>
+    <script src="../../public/js/crear_bloque.js"></script>
 </body>
 
 </html>

@@ -42,7 +42,7 @@ class ModeloAlumno
     {
         $query = 
         'SELECT a.id, 
-        a.fecha, 
+        a.fecha,
         a.estado AS estado_asistencia , 
         j.estado AS estado_justificacion 
         FROM asistencias AS a 
@@ -79,14 +79,15 @@ class ModeloAlumno
         return $data;
     }
 
-    function MetodoJustificar($asistencia_id, $mensaje)
+    function MetodoJustificar($asistencia_id, $mensaje, $archivo)
     {
-        $query = 'INSERT INTO justificaciones(asistencia_id, mensaje) VALUES(?, ?)';
+        $query = 'INSERT INTO justificaciones(asistencia_id, mensaje,archivo) VALUES(?, ?,?)';
         $stm = $this->conexion->prepare($query);
 
         if ($stm->execute([
             $asistencia_id,
-            $mensaje
+            $mensaje,
+            $archivo
         ])) {
             $data = 'Justificación enviada con éxito.';
         } else {
@@ -101,6 +102,7 @@ class ModeloAlumno
             'SELECT 
         j.id, 
         j.mensaje, 
+        j.archivo,
         a.fecha,
         j.estado
         FROM justificaciones AS j

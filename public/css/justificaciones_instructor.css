@@ -1,0 +1,45 @@
+/* Justificaciones Styles */
+.justificaciones-wrapper{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 250px);
+	align-items: start;
+	gap: 1em;
+}
+
+.justificacion-card{
+	background: var(--neutral);
+	padding: 1em;
+	display: grid;
+	align-content: start;
+	gap: 1em;
+	border-radius: 12px;
+	box-shadow: 0 3px 15px rgba(0, 0, 0, .3);
+}
+
+.justificacion-card__top{
+	display: flex;
+	justify-content: space-between;
+}
+
+.justificacion-card__date{
+	opacity: .7;
+}
+
+.justificacion-card__status{
+	background: var(--dark-5);
+	border-radius: 8px;
+  font-weight: 600;
+  font-size: 1em;
+	padding: .5em 1em;
+	color: var(--light);
+	display: flex;
+	justify-content: center;
+	text-transform: uppercase;
+	align-self: baseline;
+}
+.justificacion-card__status.aceptada{
+	background: var(--green);
+}
+.justificacion-card__status.rechazada{
+	background: var(--red);
+}

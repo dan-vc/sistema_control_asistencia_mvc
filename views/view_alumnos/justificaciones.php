@@ -1,12 +1,20 @@
 <?php
+/* Verificacion de Autorizacion*/
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 3) {
+    header('Location: ../../');
+    exit;
+}
+$user_id = $_SESSION['user_id'];
+
 require_once("../../controller/ControladorAlumno.php");
 $controlador = $ObjControlador;
 
 
-$user_info = $controlador->GetInfoByID(3);
+$user_info = $controlador->GetInfoByID($user_id);
 $user_name = $user_info["nombres"] . ' ' . $user_info["apellidos"];
 
-$justificaciones = $controlador->VerJustificaciones(3);
+$justificaciones = $controlador->VerJustificaciones($user_id);
 
 ?>
 
@@ -60,16 +68,24 @@ $justificaciones = $controlador->VerJustificaciones(3);
       </div>
     </div>
     <main>
-      <div class="details-wrapper">
+      <div class="justificaciones-wrapper">
 
         <?php
         foreach ($justificaciones as $justificacion):
-          $fecha = date_create_from_format("Y-m-d H:i:s", $justificacion["fecha"]); ?>
-          <div class="details-row">
-            <p class="details-row__id"><?= $justificacion["id"] ?></p>
-            <p class="details-row__date"><?= $fecha->format("Y-m-d") ?></p>
-            <p class="details-row__status"><?= $justificacion["mensaje"] ?></p>
-            <p class="details-row__status"><?= $justificacion["estado"] ?></p>
+          $fecha = date_create_from_format("Y-m-d", $justificacion["fecha"]); ?>
+          <div class="justificacion-card">
+            <div class="justificacion-card__top">
+              <p class="justificacion-card__id">ID: <?= $justificacion["id"] ?></p>
+              <p class="justificacion-card__date"><?= $fecha->format("Y-m-d") ?></p>
+            </div>
+            <?php if ($justificacion["archivo"]): ?>
+              <img src="<?= $justificacion['archivo'] ?>" alt="Justificación de la asistencia <?= $justificacion['id'] ?>">
+            <?php endif; ?>
+            <p class="justificacion-card__mensaje"><?= $justificacion["mensaje"] ?></p>
+
+            <div class="justificacion-card__status <?= $justificacion["estado"] ?>">
+              <p><?= $justificacion["estado"] ?></p>
+            </div>
           </div>
         <?php endforeach ?>
 

@@ -1,5 +1,10 @@
 <?php
+/* Verificacion de Autorizacion*/
 session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 3) {
+    header('Location: ../../');
+    exit;
+}
 $user_id = $_SESSION['user_id'];
 
 require_once("../../controller/ControladorAlumno.php");
@@ -18,12 +23,12 @@ $tardanzas = 0;
 $justificaciones = 0;
 
 foreach ($stats as $stat):
-  if (strtolower($stat["estado"]) == 'asistencia') {
+  if (strtolower($stat["estado"]) == 'presente') {
     $asistencias = $stat['total'];
   }
 endforeach;
 foreach ($stats as $stat):
-  if (strtolower($stat["estado"]) == 'falta') {
+  if (strtolower($stat["estado"]) == 'falto') {
     $faltas = $stat['total'];
   }
 endforeach;
@@ -33,7 +38,7 @@ foreach ($stats as $stat):
   }
 endforeach;
 foreach ($stats as $stat):
-  if (strtolower($stat["estado"]) == 'justificación') {
+  if (strtolower($stat["estado"]) == 'justificado') {
     $justificaciones = $stat['total'];
   }
 endforeach;
@@ -128,23 +133,29 @@ $details = $controlador->GetDetailsByID($user_id);
 
         <?php
         foreach ($details as $detail):
-          $fecha = date_create_from_format("Y-m-d H:i:s", $detail["fecha"]); ?>
+          $fecha = date_create_from_format("Y-m-d", $detail["fecha"]); ?>
 
           <div class="details-row">
-            <p class="details-row__date"><?= $fecha->format("Y-m-d"); ?></p>
-            <p class="details-row__status"><?= $detail["estado_asistencia"] ?></p>
-            
-            <?php if ($detail["estado_asistencia"] === 'falta'):
+            <?php if ($fecha !== false): ?>
+              <p class="details-row__date"><?= $fecha->format("Y-m-d"); ?></p>
+            <?php else: ?>
+              <p class="details-row__date">Fecha inválida</p>
+            <?php endif; ?>
+
+            <p class="details-row__status"><?= htmlspecialchars($detail["estado_asistencia"]) ?></p>
+
+            <?php if ($detail["estado_asistencia"] === 'falto'):
               if ($detail["estado_justificacion"] === null): ?>
-                <button class="btn btn-danger" onclick="justificarModal('<?= $detail["id"] ?>')">Justificar</button>
+                <button class="btn btn-danger"
+                  onclick="justificarModal('<?= htmlspecialchars($detail["id"]) ?>')">Justificar</button>
               <?php else: ?>
                 <a href="justificaciones.php" class="">Ver justificacion</a>
-              <?php endif ?>
-
-            <?php endif ?>
+              <?php endif; ?>
+            <?php endif; ?>
           </div>
 
-        <?php endforeach ?>
+        <?php endforeach; ?>
+
 
         <!-- <div class="details-row">
           <p class="details-row__date">02/07/2024</p>

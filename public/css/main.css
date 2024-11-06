@@ -4,9 +4,11 @@
 	--dark: #333333;
 	--light: #ffffff;
 	--neutral: #f3f3f3;
+	--dark-5: #afafaf;
 
 	--blue: #2979ff;
 	--red: #ee4747;
+	--yellow: #ffe625;
 	--orange: #ff9925;
 	--green: #59a936;
 }
@@ -37,6 +39,11 @@ img {
 a {
 	text-decoration: none;
 	color: inherit;
+}
+
+.link{
+	text-decoration: underline;
+	color: var(--blue);
 }
 
 .btn {

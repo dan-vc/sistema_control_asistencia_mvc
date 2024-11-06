@@ -12,10 +12,13 @@ function justificarModal(id) {
     modalContenido.innerHTML = `
     <span class="cerrar" id="cerrar-modal">&times;</span>
     <h2>Justificar Falta</h2>
-    <form id="modal-form" action="#" method="post">
+    <form id="modal-form" action="guardarJustificacion.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="${id}" required></input>
         <label for="justificacion">Razón:</label>
-        <textarea name="justificacion" id="justificacion" rows="5"></textarea>
-        <button class="btn btn-green">Presentar Justificación</button>
+        <textarea name="justificacion" id="justificacion" rows="5" required></textarea>
+        <label for="img">Archivo</label>
+        <input type="file" name="imagen" id="imagen">
+        <button type="submit" class="btn btn-green">Presentar Justificación</button>
     </form>`;
 
     modal.appendChild(modalContenido);
@@ -31,28 +34,32 @@ function justificarModal(id) {
         }
     };
 
-    document.getElementById('modal-form').onsubmit = event => {
+    /* document.getElementById('modal-form').onsubmit = event => {
         event.preventDefault();
 
         const data = {
             id: id,
             justificacion: document.getElementById('justificacion').value,
         };
-
+        
+        console.log({ data: data });
         fetch('../../api/guardarJustificacion.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ data: data })
+            body: { data: data }
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 location.reload;
             })
             .catch(error => console.error('Error:', error));
 
 
         document.getElementById('modal-wrapper').remove();
-    }
+    } */
 }
+
+
