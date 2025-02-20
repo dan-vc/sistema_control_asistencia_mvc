@@ -1,19 +1,30 @@
 <?php
-require_once '../config/conexion.php';
-$data = json_decode(file_get_contents("php://input"), true);
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/config/conexion.php'; 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/controller/controladorBloque.php'; 
 
-if (isset($data['id'], $data['name'], $data['apellido'])) {
-    $id = intval($data['id']);
-    $name = $data['name'];
-    $apellido = $data['apellido'];
+header('Content-Type: application/json');
 
-    $sql = "UPDATE estudiantes SET name = '$name', apellido = '$apellido' WHERE id = $id";
 
-    if ($conexion->query($sql) === TRUE) {
-        echo json_encode(['success' => true]);
+$modelo = new ModeloBloque($conexion);
+$controladorBloque = new ControladorBloque($modelo);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $correo = $_POST['correo'];
+
+    
+    $actualizacionExitosa = $controladorBloque->actualizarAlumno($id, $nombre, $apellido, $correo);
+
+    if ($actualizacionExitosa) {
+        echo json_encode(['success' => true, 'message' => 'Alumno actualizado con éxito']);
     } else {
-        echo json_encode(['success' => false]);
+        echo json_encode(['success' => false, 'message' => 'Error al actualizar']);
     }
 } else {
-    echo json_encode(['success' => false]);
+    echo json_encode(['success' => false, 'message' => 'Método no permitido']);
 }
+?>

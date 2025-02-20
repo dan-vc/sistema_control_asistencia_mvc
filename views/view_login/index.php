@@ -14,6 +14,7 @@
     } else {
       session_start();
       $_SESSION['user_id'] = $user_data['id'];
+      $_SESSION['rol_id'] = $user_data['rol_id'];
       switch ($user_data['rol_id']) {
         case '1':
           //print_r('We have an admin, move out!');
@@ -71,5 +72,6 @@
     </div>
   </div>
 </body>
+
 
 </html>

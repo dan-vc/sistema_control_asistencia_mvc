@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('../img/fondo-añadir.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    width: 30%; 
+    animation: fadeInUp 0.6s ease-out; 
+}
+
+main h2 {
+    margin-bottom: 1rem;
+    color: #6c757d; 
+    text-align: center;
+    font-size: 1.5rem; 
+    text-shadow: 
+        1px 1px 2px rgba(255, 255, 255, 0.7), 
+        1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+
+form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: #333;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form select {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; 
+    margin-bottom: 1rem; 
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: border-color 0.3s, box-shadow 0.3s; 
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form select:focus {
+    border-color: #007DFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 125, 255, 0.5);
+}
+
+form button[type="submit"] {
+    background-color: rgba(40, 167, 69, 0.9); 
+    color: #FFFFFF;
+    padding: 12px;
+    border: none;
+    border-radius: 7px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s; 
+}
+
+form button[type="submit"]:hover {
+    background-color: rgba(33, 136, 56, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Sombra de texto para los botones */
+form button[type="submit"]:focus {
+    box-shadow: 0 0 5px rgba(0, 125, 255, 0.5);
+}
