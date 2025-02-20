@@ -85,11 +85,14 @@ class ModeloInstructor
         return $data;
     }
 
-    public function JustificarAsistencia($asistencia_id)
+    public function ActualizarAsistencia($asistencia_id, $status)
     {
-        $query = 'UPDATE asistencias SET estado = "justificado" WHERE id = ?';
+        $asistencia_estado = $status === 'aceptada' ? 'justificado' : 'falto';
+
+        $query = 'UPDATE asistencias SET estado = ? WHERE id = ?';
         $stm = $this->conexion->prepare($query);
         $data = $stm->execute([
+            $asistencia_estado,
             $asistencia_id
         ]);
         return $data;

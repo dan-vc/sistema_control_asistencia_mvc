@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $asistencia_id = $data['asistenciaId'];
     $status = $data['status'];    
     
-    $actualizacionExitosa = $controlador->JustificarAsistencia($justificacion_id, $asistencia_id, $status);
+    $actualizacionExitosa = $controlador->ManejarJustificacion($justificacion_id, $asistencia_id, $status);
     
     if ($actualizacionExitosa) {
         echo json_encode(['success' => true, 'message' => 'Asistencia justificada con éxito']);

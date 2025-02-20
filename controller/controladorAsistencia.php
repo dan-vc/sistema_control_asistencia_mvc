@@ -32,6 +32,11 @@ class ControladorAsistencia
         }
     }
 
+    public function obtenerAsistenciasExistentes($bloque_id, $fecha)
+    {
+        return $this->modelo->asistenciasExistentes($bloque_id, $fecha);
+    }
+
     public function obtenerBloquesPorProfesor($profesor_id)
     {
         return $this->modelo->obtenerBloquesPorProfesor($profesor_id);
@@ -45,7 +50,16 @@ class ControladorAsistencia
     public function obtenerAsistenciaDelDia($alumno_id)
     {
         $fecha = date('Y-m-d');
-        return $this->modelo->obtenerAsistenciaPorAlumnoYFecha($alumno_id, $fecha);
+        $asistencia = $this->modelo->obtenerAsistenciaPorAlumnoYFecha($alumno_id, $fecha);
+    
+        return $asistencia;  // Esto devuelve los datos de asistencia de ese alumno para el día
+    }
+    
+
+    public function obtenerAsistenciaDelDiaPorBloque($bloque_id)
+    {
+        $fecha = date('Y-m-d');
+        return $this->modelo->obtenerAsistenciaPorBloqueYFecha($bloque_id, $fecha);
     }
 }
 

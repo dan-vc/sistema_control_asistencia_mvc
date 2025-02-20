@@ -62,6 +62,14 @@ class AsistenciaModelo
         return $stmt->fetchColumn() > 0;
     }
 
+    public function asistenciasExistentes($bloque_id, $fecha)
+    {
+        $sql = "SELECT * FROM asistencias WHERE bloque_id = :bloque_id AND DATE(fecha) = DATE(:fecha)";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([':bloque_id' => $bloque_id, ':fecha' => $fecha]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function obtenerBloquesPorProfesor($profesor_id)
     {
         $sql = "SELECT * FROM bloques WHERE profesor_id = :profesor_id";
@@ -84,19 +92,29 @@ class AsistenciaModelo
     }
     
 
+    /* Obtener asistencia por alumno y fecha */
     public function obtenerAsistenciaPorAlumnoYFecha($alumno_id, $fecha)
     {
-        try {
-            $query = "SELECT * FROM asistencias WHERE alumno_id = :alumno_id AND DATE(fecha) = DATE(:fecha)";
-            $stmt = $this->conexion->prepare($query);
-            $stmt->execute([
-                ':alumno_id' => $alumno_id,
-                ':fecha' => $fecha
-            ]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            return false; 
-        }
+        $query = "SELECT * FROM asistencia WHERE alumno_id = :alumno_id AND fecha = :fecha";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bindParam(':alumno_id', $alumno_id);
+        $stmt->bindParam(':fecha', $fecha);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);  // Devuelve un solo registro
     }
+
+    /* Obtener asistencia por bloque y fecha */
+    public function obtenerAsistenciaPorBloqueYFecha($bloque_id, $fecha)
+    {
+        $query = "SELECT * FROM asistencia WHERE bloque_id = :bloque_id AND fecha = :fecha";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bindParam(':bloque_id', $bloque_id);
+        $stmt->bindParam(':fecha', $fecha);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);  // Devuelve todos los registros de ese bloque
+    }
+    
 }
 ?>

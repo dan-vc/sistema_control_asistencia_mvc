@@ -1,18 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  const selectJustificacionEstado = document.getElementById("selectJustificacionEstado");
+  const selectJustificacionEstado = document.querySelectorAll("#selectJustificacionEstado");
 
-  selectJustificacionEstado.addEventListener('change', e => {
-    e.target.classList.remove('pendiente')
-    e.target.classList.remove('aceptada')
-    e.target.classList.remove('rechazada')
-    e.target.classList.add(e.target.value)
+  selectJustificacionEstado.forEach(el => {
+    el.addEventListener('change', e => {
+      e.target.classList.remove('pendiente')
+      e.target.classList.remove('aceptada')
+      e.target.classList.remove('rechazada')
+      e.target.classList.add(e.target.value)
+  
+      const justificacionId = e.target.getAttribute('data-id');
+      const asistenciaId = e.target.getAttribute('data-asistencia-id');
+      const status = e.target.value;    
+      handleChange(justificacionId, asistenciaId, status)
+    })
 
-    const justificacionId = e.target.getAttribute('data-id');
-    const asistenciaId = e.target.getAttribute('data-asistencia-id');
-    const status = e.target.value;    
-    handleChange(justificacionId, asistenciaId, status)
   })
+
 });
 
 

@@ -6,7 +6,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 2) {
   exit;
 }
 
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/config/conexion.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/controller/instructorControlador.php';
 
@@ -14,7 +13,7 @@ $instructor_id = $_SESSION['user_id'];
 
 $controlador = new ControladorInstructor($conexion);
 $justificaciones = $controlador->VerJustificaciones($instructor_id);
-
+count($justificaciones)
 ?>
 
 <!DOCTYPE html>

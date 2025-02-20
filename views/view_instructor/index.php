@@ -8,13 +8,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 2) {
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/config/conexion.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/controller/controladorAsistencia.php';
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/controller/instructorControlador.php';
 
 $instructor_id = $_SESSION['user_id'];
 
+/* Obtenemos los Bloques del profesor */
 $controladorAsistencia = new ControladorAsistencia($conexion);
 $bloques = $controladorAsistencia->obtenerBloquesPorProfesor($instructor_id);
-?>
+
+/* Obtenemos las justificaciones */
+$controladorInstructor = new ControladorInstructor($conexion);
+$justificaciones = $controladorInstructor->VerJustificaciones($instructor_id);
+/* Guardamos el numero de justificaciones */
+$justificaciones = count($justificaciones)
+    ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -24,6 +31,7 @@ $bloques = $controladorAsistencia->obtenerBloquesPorProfesor($instructor_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tablero de Asistencia</title>
     <link rel="stylesheet" href="../../public/css/admin.css">
+    <script src="../../public/js/notificaciones.js"></script>
 </head>
 
 <body>
@@ -78,5 +86,9 @@ $bloques = $controladorAsistencia->obtenerBloquesPorProfesor($instructor_id);
         </div>
     </main>
 </body>
+
+<script>
+    showNotification('Hola', 'Tiene <?= $justificaciones ?> justificaciones pendientes.')
+</script>
 
 </html>
