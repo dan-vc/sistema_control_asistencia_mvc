@@ -1,0 +1,111 @@
+.usuarios {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.alumno-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.alumno-item:last-child {
+    border-bottom: none; 
+}
+
+.botones-acciones {
+    display: flex; 
+    gap: 10px; 
+}
+
+.edit-button, .disable-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button {
+    background-color: #4CAF50; 
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #45a049;
+}
+
+.disable-button {
+    background-color: #f44336; 
+    color: white;
+}
+
+.disable-button:hover {
+    background-color: #e53935;
+}
+
+.c-boton- {
+    margin-top: 20px; 
+}
+
+.openModal {
+    padding: 10px 15px;
+    background-color: #2196F3; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.openModal:hover {
+    background-color: #1976D2;
+}
+
+.toggle-buttons {
+    display: flex;
+    gap: 15px; 
+}
+
+.toggle-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+
+#button-disable {
+    background-color: #e57373; 
+    color: white;
+}
+
+#button-disable:hover {
+    background-color: #f44336; 
+}
+
+
+#button-enable {
+    background-color: #81c784; 
+    color: white;
+}
+
+#button-enable:hover {
+    background-color: #4caf50; 
+}
+
+
+.toggle-button:disabled {
+    background-color: #e0e0e0; 
+    color: #b0b0b0; 
+    cursor: not-allowed; 
+}

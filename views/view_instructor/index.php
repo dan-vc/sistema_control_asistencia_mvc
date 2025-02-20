@@ -1,66 +1,94 @@
 <?php
-date_default_timezone_set('America/Lima');
-?>
+/* Verificacion de Autorizacion*/
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 2) {
+    header('Location: ../../');
+    exit;
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/config/conexion.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/controller/controladorAsistencia.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SistemaControlAsistencia/controller/instructorControlador.php';
+
+$instructor_id = $_SESSION['user_id'];
+
+/* Obtenemos los Bloques del profesor */
+$controladorAsistencia = new ControladorAsistencia($conexion);
+$bloques = $controladorAsistencia->obtenerBloquesPorProfesor($instructor_id);
+
+/* Obtenemos las justificaciones */
+$controladorInstructor = new ControladorInstructor($conexion);
+$justificaciones = $controladorInstructor->VerJustificaciones($instructor_id);
+/* Guardamos el numero de justificaciones */
+$justificaciones = count($justificaciones)
+    ?>
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../../public/css/instructor.css" />
-  <link rel="shortcut icon" href="../../public/img/logo-square.png" type="image/x-icon">
-  <title>DailyCheck - Instructor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Asistencia</title>
+    <link rel="stylesheet" href="../../public/css/admin.css">
+    <script src="../../public/js/notificaciones.js"></script>
 </head>
 
 <body>
-  <div class="main-container">
-    <div class="left-content">
-      <div class="left-content__inner">
-        <div class="logo-wrapper">
-          <img src="../../public/img/logo-white.png" alt="logo" class="logo-img" />
-        </div>
-        <div class="profile-wrapper">
-          <img src="../../public/img/profile2.png" alt="Instructor" class="profile-img" />
-          <p>Nombre del Instructor</p>
-        </div>
-        <p>Clase: seminario</p>
-        <p>N° Alumnos: 30</p>
-        <a href="../../" class="btn btn-danger">
-          Cerrar sesión
-        </a>
-      </div>
-    </div>
+    <main>
+        <div class="c-admin">
+            <div class="admin-info">
+                <div class="c-img-logo">
+                    <img src="../../public/img/logo.png" alt="Logo">
+                </div>
+                <div class="informacion-admin">
+                    <img src="../../public/img/profile.png" alt="Foto de Perfil de admin">
+                    <p>Instructor</p>
+                </div>
 
+                <!-- Navegación de páginas -->
+                <nav class="admin-nav">
+                    <ul>
+                        <li>
+                            <a href="index.php" class="nav-link active">
+                                Bloques
+                            </a>
+                        </li>
+                        <li>
+                            <a href="justificaciones.php" class="nav-link">
+                                Justificaciones
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
 
-    <main class="main-content">
-      <h2>Día: <?= date('d/m/Y') ?></h2>
-      <table>
-        <tr>
-          <th>Nombre</th>
-          <th>Asistencia</th>
-          <th>Falta</th>
-          <th>Tardanza</th>
-          <th>Justificación</th>
-        </tr>
-        <?php
-        $students = array_fill(0, 8, 'jose carlos chero');
-        $statuses = ['check', 'x', 'late'];
-        foreach ($students as $student) {
-          $status = $statuses[array_rand($statuses)];
-          echo "<tr>
-                        <td>$student</td>
-                        <td>" . ($status == 'check' ? '<span class="check">✓</span>' : '') . "</td>
-                        <td>" . ($status == 'x' ? '<span class="x">✗</span>' : '') . "</td>
-                        <td>" . ($status == 'late' ? '<span class="late">⚠</span>' : '') . "</td>
-                        <td></td>
-                      </tr>";
-        }
-        ?>
-      </table>
-      <button class="save-btn">GUARDAR</button>
+                <div class="c-cerrar-sesion">
+                    <a href="../logout.php" class="btn btn-danger">Cerrar Sesión</a>
+                </div>
+            </div>
+
+            <div class="bloques">
+                <h2>Lista de Bloques</h2>
+                <div class="lista-bloque">
+                    <?php if (empty($bloques)): ?>
+                        <p>No hay bloques asignados.</p>
+                    <?php else: ?>
+                        <?php foreach ($bloques as $bloque): ?>
+                            <div class="card-bloque"
+                                onclick="location.href='asistencia.php?bloque_id=<?php echo $bloque['id']; ?>'">
+                                <h3><?php echo htmlspecialchars($bloque['nombre']); ?></h3>
+                            </div>
+
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     </main>
-  </div>
 </body>
+
+<script>
+    showNotification('Hola', 'Tiene <?= $justificaciones ?> justificaciones pendientes.')
+</script>
 
 </html>

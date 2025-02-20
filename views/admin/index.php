@@ -1,121 +1,111 @@
 <?php
+/* Verificacion de Autorizacion*/
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 1) {
+    header('Location: ../../');
+    exit;
+}
+$user_id = $_SESSION['user_id'];
+
 require_once '../../config/conexion.php';
+require_once '../../controller/controladorBloque.php';
+
+$modeloBloque = new ModeloBloque($conexion);
+$controladorBloque = new ControladorBloque($modeloBloque);
+
+$bloques = $controladorBloque->listarBloques() ?? [];
+$profesores = $controladorBloque->obtenerProfesores();
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="../../public/img/logo-square.png" type="image/x-icon">
-  <title>Administrador</title>
-  <link rel="stylesheet" href="../../public/css/admin.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador</title>
+    <link rel="stylesheet" href="../../public/css/admin.css">
+    <link rel="stylesheet" href="../../public/css/usuarios_bloques.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-  <main>
-    <div class="c-admin">
-      <!-- Información del administrador -->
-      <div class="admin-info">
-        <div class="admin-info__inner">
-          <div class="c-img-logo">
-            <img src="../../public/img/logo-white.png" alt="" class="logo-img">
-          </div>
+    <main>
+        <div class="c-admin">
 
-          <div class="informacion-admin">
-            <img src="../../public/img/profile2.png" alt="Foto de Perfil de admin">
-            <p>Admin</p>
-          </div>
-          <div class="informacion-admin-2">
-            <p><b>Clases:</b> Desarrollo de Aplicaciones Móviles</p>
-            <p><b>Instructor:</b> Arturo Collado</p>
-          </div>
-          <div class="c-cerrar-sesion">
-            <a href="../../" class="btn btn-danger">Cerrar Sesión</a>
-          </div>
-        </div>
-      </div>
+            <!-- Esto se trabajará con el login, el inicio de sesión  -->
+            <div class="admin-info">
+                <div class="c-img-logo">
+                    <img src="../../public/img/logo.png" alt="">
+                </div>
 
-      <!-- Funciones que puede realizar el administrador -->
-      <div class="c-admin-funciones">
-        <?php
-        $sql = "SELECT id, name, apellido FROM estudiantes";
-        $resultado = $conexion->query($sql);
+                <div class="informacion-admin">
+                    <img src="../../public/img/profile.png" alt="Foto de Perfil de admin">
+                    <p>Admin</p>
+                </div>
 
-        /* Se mostraran los datos */
-        if ($resultado->rowCount() > 0) {
-          while ($fila = $resultado->fetch()) { ?>
-        <div class="admin-funciones">
-          <div class="info-contenedor">
-            <img src="../../public/img/profile2.png" alt="Perfil">
-            <div class="info-estudiante">
-              <h3 class="nombre-estudiante"><?= $fila['name'] . ' ' . $fila['apellido'] ?></h3>
-              <p><?= ($fila['id']) ?></p>
+                <!-- Navegación de páginas -->
+                <nav class="admin-nav">
+                    <ul>
+                        <li>
+                            <a href="index.php" class="nav-link active">
+                                Bloques
+                            </a>
+                        </li>
+                        <li>
+                            <a href="instructores.php" class="nav-link">
+                                Instructores
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="c-cerrar-sesion">
+                    <a href="../logout.php" type="button" class="btn btn-danger">Cerrar Sesión</a>
+                </div>
             </div>
-          </div>
 
-          <div class="botones">
-            <button class="boton-editar" data-id="<?= $fila['id'] ?>">Editar</button>
-            <form action="../../metodos/eliminar_estudiante.php" method="post" style="display:inline;">
-              <input type="hidden" name="id" value="<?= $fila['id'] ?>">
-              <button type="submit" class="boton-eliminar"
-                onclick="return confirm('¿Estás seguro de que deseas eliminar este estudiante?');">Eliminar</button>
-            </form>
-          </div>
+            <div class="bloques">
+                <h2>Lista de Bloques</h2>
+                <div class="lista-bloque">
+                    <?php foreach ($bloques as $bloque): ?>
+                        <div class="card-bloque" onclick="location.href='usuarios.php?id=<?php echo $bloque['id']; ?>'">
+                            <img src="" alt="">
+                            <h3><?php echo htmlspecialchars($bloque['nombre']); ?></h3>
+                        </div>
+                    <?php endforeach; ?>
+                    <button id="openModalButton">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
 
-        </div>
-        <?php
-          }
-        } else {
-          echo '<p>No hay estudiantes disponibles.</p>';
-        }
-        ?>
-        <div class="boton-añadir-container">
-          <button class="boton-añadir" id="abrir-modal">+</button>
-        </div>
+            <div id="addBlockModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeModalButton">&times;</span>
+                    <h2>Añadir Nuevo Bloque</h2>
+                    <form id="addBlockForm">
+                        <label for="blockName">Nombre del Bloque:</label>
+                        <input type="text" id="blockName" required>
 
-      </div>
+                        <label for="professorSelect">Selecciona un Profesor:</label>
+                        <select id="professorSelect" required>
+                            <option value="">Selecciona un profesor</option>
+                            <?php foreach ($profesores as $profesor): ?>
+                                <option value="<?php echo $profesor['id']; ?>">
+                                    <?php echo htmlspecialchars($profesor['nombres'] . " " . $profesor['apellidos']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="submit">Añadir Bloque</button>
+                    </form>
+                </div>
+            </div>
 
-    </div>
-
-    <!-- Modal de editar -->
-    <div id="modal-editar" class="modal">
-      <div class="modal-contenido">
-        <span class="cerrar" id="cerrar-modal">&times;</span>
-        <h2>Editar Estudiante</h2>
-        <form id="form-editar">
-          <input type="hidden" id="estudiante-id" name="id">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="name" required>
-          <label for="apellido">Apellido:</label>
-          <input type="text" id="apellido" name="apellido" required>
-          <button type="submit">Guardar Cambios</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Modal de añadir nuevo estudiante -->
-    <div id="modal-anadir" class="modal" style="display:none;">
-      <div class="modal-contenido">
-        <span class="cerrar" id="cerrar-modal">&times;</span>
-        <h2>Añadir Estudiante</h2>
-        <form id="form-anadir" action="../../metodos/nuevo_estudiante.php" method="post">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="name" required>
-          <label for="apellido">Apellido:</label>
-          <input type="text" id="apellido" name="apellido" required>
-          <label for="dni">DNI:</label>
-          <input type="number" id="dni" name="dni" required>
-          <button type="submit">Añadir Estudiante</button>
-        </form>
-      </div>
-    </div>
-
-
-  </main>
-  <script src="../../public/js/modal-editar.js"></script>
-  <script src="../../public/js/modal-añadir.js"></script>
+    </main>
+    <script src="../../public/js/crear_bloque.js"></script>
 </body>
 
 </html>

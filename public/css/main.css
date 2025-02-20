@@ -4,9 +4,11 @@
 	--dark: #333333;
 	--light: #ffffff;
 	--neutral: #f3f3f3;
+	--dark-5: #afafaf;
 
 	--blue: #2979ff;
 	--red: #ee4747;
+	--yellow: #ffe625;
 	--orange: #ff9925;
 	--green: #59a936;
 }
@@ -39,6 +41,11 @@ a {
 	color: inherit;
 }
 
+.link{
+	text-decoration: underline;
+	color: var(--blue);
+}
+
 .btn {
 	border: none;
 	padding: 10px 20px;
@@ -49,7 +56,7 @@ a {
 	transition: all ease 0.3s;
 }
 
-.btn:hover {
+.btn-danger:hover {
 	filter: grayscale(1);
 }
 

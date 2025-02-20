@@ -1,9 +1,17 @@
 <?php
+/* Verificacion de Autorizacion*/
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['rol_id'] != 3) {
+    header('Location: ../../');
+    exit;
+}
+$user_id = $_SESSION['user_id'];
+
 require_once("../../controller/ControladorAlumno.php");
 $controlador = $ObjControlador;
 
-$info = $controlador->GetInfoByID(3);
-
+/* Obtención de la información del alumno */
+$info = $controlador->GetInfoByID($user_id);
 $user_name = $info["nombres"] . ' ' . $info["apellidos"];
 
 ?>
@@ -65,9 +73,6 @@ $user_name = $info["nombres"] . ' ' . $info["apellidos"];
       <div class="info-wrapper">
         <div class="info-row">
           <span>ID:</span> <span><?= $info["id"] ?></span>
-        </div>
-        <div class="info-row">
-          <span>Sexo:</span> <span><?= $info["id"] ?></span>
         </div>
         <div class="info-row">
           <span>Correo:</span> <span><?= $info["correo"] ?></span>
